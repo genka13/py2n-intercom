@@ -1,9 +1,13 @@
-"""Python client library for 2N IP intercom HTTP API.
+"""py2n-intercom library."""
 
-This library is intended to be used by Home Assistant integrations and other Python projects.
-"""
+from .client import Py2NClient
+from .exceptions import Py2NApiError
+from .models import Py2NDeviceInfo, Py2NLogEvent
 
-from .client import Py2NApiError, Py2NClient, Py2NDeviceInfo, Py2NLogEvent
-
-__all__ = ["Py2NClient", "Py2NDeviceInfo", "Py2NApiError", "Py2NLogEvent"]
+__all__ = [
+    "Py2NClient",
+    "Py2NApiError",
+    "Py2NDeviceInfo",
+    "Py2NLogEvent",
+]
 

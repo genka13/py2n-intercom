@@ -25,7 +25,7 @@ from py2n_intercom import Py2NClient
 
 async def main():
     async with aiohttp.ClientSession() as session:
-        client = Py2NClient(session, base_url="https://192.168.1.21", username="admin", password="***", auth_method="digest")
+        client = Py2NClient(session, base_url="https://10.13.23.21", username="admin", password="***", auth_method="digest")
         info = await client.async_get_device_info()
         print(info)
 ```

@@ -4,14 +4,14 @@ build-backend = "hatchling.build"
 
 [project]
 name = "py2n-intercom"
-version = "0.1.28"
+version = "0.1.29"
+authors = [
+  {name = "Gerald Docenko", email = "genka13@users.noreply.github.com"}
+]
 description = "Async Python client for the 2N IP intercom HTTP API"
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }
-authors = [
-  {name = "Gerald Docenko", email = "genka13@users.noreply.github.com"}
-]
 keywords = ["2n", "intercom", "home-assistant"]
 dependencies = [
   "aiohttp>=3.9.0",

@@ -11,6 +11,8 @@ Most 2N endpoints used here are GET-based.
 
 from __future__ import annotations
 
+from .exceptions import Py2NApiError
+from .models import Py2NDeviceInfo, Py2NLogEvent
 import asyncio
 import hashlib
 import os
@@ -46,21 +48,8 @@ def _normalize_mac(value: str | None) -> str | None:
     return ":".join(p.upper() for p in pairs)
 
 
-class Py2NApiError(Exception):
-    """Raised on communication/auth errors with the 2N device."""
 
 
-@dataclass(slots=True)
-class Py2NDeviceInfo:
-    """Metadata extracted from /api/system/info."""
-
-    title: str
-    model: str | None = None
-    serial: str | None = None
-    mac: str | None = None
-    sw_version: str | None = None
-    hw_version: str | None = None
-    boot_uuid: str | None = None
 
 
 _digest_kv_split = re.compile(r",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)")
@@ -116,29 +105,6 @@ def _h(hash_ctor, data: str) -> str:
 
 
 
-@dataclass(frozen=True)
-class Py2NLogEvent:
-    """Single event record returned by /api/log/pull.
-
-    The exact payload varies by firmware and enabled event types.
-    This model keeps the raw dict available for forward compatibility.
-    """
-
-    event: str | None = None
-    timestamp: str | None = None
-    valid: bool | None = None
-    params: dict[str, Any] | None = None
-    raw: dict[str, Any] | None = None
-
-    @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "Py2NLogEvent":
-        return cls(
-            event=data.get("event"),
-            timestamp=data.get("time") or data.get("timestamp"),
-            valid=data.get("valid"),
-            params=data.get("params") if isinstance(data.get("params"), dict) else None,
-            raw=data,
-        )
 
 class _DigestState:
     def __init__(self, username: str, password: str) -> None:
@@ -275,7 +241,7 @@ class Py2NClient:
                     resp = await _do(headers={"Authorization": authz})
 
                 if resp.status == 401:
-                    raise Py2NApiError("unauthorized")
+                    raise Py2NApiError("unauthorized", status=status)
                 if resp.status >= 400:
                     text = await resp.text()
                     raise Py2NApiError(f"HTTP {resp.status}: {text}")
