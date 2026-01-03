@@ -16,6 +16,7 @@ class Py2NDeviceInfo:
 
     title: str | None = None
     model: str | None = None
+    model_id: str | None = None
     serial: str | None = None
     mac: str | None = None
     sw_version: str | None = None

@@ -270,11 +270,13 @@ class Py2NClient:
         return Py2NDeviceInfo(
             title=title,
             model=result.get("variant"),
+            model_id=result.get("devType"),
             serial=result.get("serialNumber"),
             mac=_normalize_mac(result.get("macAddr")),
             sw_version=result.get("swVersion"),
             hw_version=result.get("hwVersion"),
             boot_uuid=result.get("bootUuid"),
+            raw=result,
         )
 
     async def async_open_snapshot_stream(
