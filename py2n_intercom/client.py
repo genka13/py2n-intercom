@@ -32,8 +32,6 @@ from .const import (
     API_SWITCH_CTRL,
     API_SWITCH_STATUS,
     API_SYSTEM_INFO,
-    AUTH_METHOD_BASIC,
-    AUTH_METHOD_DIGEST,
 )
 
 
@@ -197,17 +195,17 @@ class Py2NClient:
         username: str,
         password: str,
         *,
-        auth_method: str = AUTH_METHOD_DIGEST,
+        auth_method: str = "digest",
         use_https: bool = True,
         verify_ssl: bool = True,
     ) -> None:
         self._session = session
         self._ssl = verify_ssl
-        self._auth_method = auth_method
+        self._auth_method = (auth_method or "digest").lower()
         self._basic_auth: aiohttp.BasicAuth | None = None
         self._digest: _DigestState | None = None
 
-        if auth_method == AUTH_METHOD_BASIC:
+        if auth_method == "basic":
             self._basic_auth = aiohttp.BasicAuth(username, password)
         else:
             self._digest = _DigestState(username, password)
@@ -244,7 +242,7 @@ class Py2NClient:
         try:
             resp = await _do()
             try:
-                if resp.status == 401 and self._auth_method == AUTH_METHOD_DIGEST and self._digest is not None:
+                if resp.status == 401 and self._auth_method == "digest" and self._digest is not None:
                     www = resp.headers.get("WWW-Authenticate", "")
                     await resp.release()
 
