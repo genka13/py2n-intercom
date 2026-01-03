@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling>=1.21.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "py2n-intercom"
+version = "0.1.25"
+description = "Async Python client for the 2N IP intercom HTTP API"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [
+  { name = "genka13" }
+]
+keywords = ["2n", "intercom", "home-assistant"]
+dependencies = [
+  "aiohttp>=3.9.0",
+  "yarl>=1.9.0",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Framework :: AsyncIO",
+  "Topic :: Home Automation",
+]
+
+[project.urls]
+Source = "https://github.com/genka13/py2n-intercom"
+Issues = "https://github.com/genka13/py2n-intercom/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["py2n_intercom"]
