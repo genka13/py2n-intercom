@@ -3,6 +3,7 @@
 This library is intended to be used by Home Assistant integrations and other Python projects.
 """
 
-from .client import Py2NApiError, Py2NClient, Py2NDeviceInfo
+from .client import Py2NApiError, Py2NClient, Py2NDeviceInfo, Py2NLogEvent
 
-__all__ = ["Py2NClient", "Py2NDeviceInfo", "Py2NApiError"]
+__all__ = ["Py2NClient", "Py2NDeviceInfo", "Py2NApiError", "Py2NLogEvent"]
+

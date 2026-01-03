@@ -115,6 +115,31 @@ def _h(hash_ctor, data: str) -> str:
     return hash_ctor(data.encode("utf-8")).hexdigest()
 
 
+
+@dataclass(frozen=True)
+class Py2NLogEvent:
+    """Single event record returned by /api/log/pull.
+
+    The exact payload varies by firmware and enabled event types.
+    This model keeps the raw dict available for forward compatibility.
+    """
+
+    event: str | None = None
+    timestamp: str | None = None
+    valid: bool | None = None
+    params: dict[str, Any] | None = None
+    raw: dict[str, Any] | None = None
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "Py2NLogEvent":
+        return cls(
+            event=data.get("event"),
+            timestamp=data.get("time") or data.get("timestamp"),
+            valid=data.get("valid"),
+            params=data.get("params") if isinstance(data.get("params"), dict) else None,
+            raw=data,
+        )
+
 class _DigestState:
     def __init__(self, username: str, password: str) -> None:
         self._username = username

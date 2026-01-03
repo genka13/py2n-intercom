@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "py2n-intercom"
-version = "0.1.27"
+version = "0.1.28"
 description = "Async Python client for the 2N IP intercom HTTP API"
 readme = "README.md"
 requires-python = ">=3.12"
