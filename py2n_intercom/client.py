@@ -241,7 +241,7 @@ class Py2NClient:
                     resp = await _do(headers={"Authorization": authz})
 
                 if resp.status == 401:
-                    raise Py2NApiError("unauthorized", status=status)
+                    raise Py2NApiError("unauthorized", status=resp.status)
                 if resp.status >= 400:
                     text = await resp.text()
                     raise Py2NApiError(f"HTTP {resp.status}: {text}")
